@@ -12,17 +12,19 @@ void main(List<String> arguments) {
   }
 }
 
-void repl() {
+void repl() async {
   print('Welcome to the cupp REPL!');
   print('Type "exit" to exit.');
   while (true) {
-    print('cupp> ');
+    stdout.write('> ');
     var input = stdin.readLineSync();
     if (input == 'exit') {
       break;
     }
     print(
-      chalk.yellow(cupp.tokenize(input ?? "").toString(),
+      chalk.yellow(
+          (await cupp.evaluate(cupp.parse(cupp.tokenize(input ?? ""))))
+              .toString(),
           ftFace: ChalkFtFace.italic),
     );
   }
