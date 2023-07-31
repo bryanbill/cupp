@@ -1,3 +1,9 @@
+import 'std_library.dart';
+
+Future<List<dynamic>> evaluateArgs(List<dynamic> args) async {
+  return Future.wait(args.map((arg) async => await evaluate(arg)));
+}
+
 Future<dynamic> evaluate(Map<String, dynamic> ast) async {
   if (ast['type'] == 'Program') {
     return await evaluate(ast['body'][0]);
@@ -5,19 +11,19 @@ Future<dynamic> evaluate(Map<String, dynamic> ast) async {
 
   if (ast['type'] == 'CallExpression') {
     var callee = ast['name'];
-    var args = ast['params'].map((arg) async => await evaluate(arg));
-    if (callee == 'add') {
-      return (await args.first) + (await args.last);
-    }
-    if (callee == 'subtract') {
-      return (await args.first) - (await args.last);
-    }
-    if (callee == 'multiply') {
-      return (await args.first) * (await args.last);
-    }
-    if (callee == 'divide') {
-      return (await args.first) / (await args.last);
-    }
+    var args = await evaluateArgs(ast['params']);
+
+    return apply({
+      'name': callee,
+      'args': {
+        'left': args.first,
+        'right': args.last,
+      }
+    });
+  }
+
+  if (ast['type'] == 'AssignmentExpression') {
+    define({'name': ast['name'], 'value': await evaluate(ast['params'][0])});
   }
 
   if (ast['type'] == 'NumberLiteral') {
@@ -33,6 +39,22 @@ Future<dynamic> evaluate(Map<String, dynamic> ast) async {
   }
 
   throw Exception("${ast['type']} is not a valid type.");
+}
+
+dynamic apply(node) {
+  var fn = environment[node['name']];
+  if (fn == null) {
+    throw Exception("${node['name']} is not a function.");
+  }
+  return fn(node['args']);
+}
+
+void define(node) {
+  environment[node.name] = node.value;
+}
+
+dynamic getIdentifierValue(name) {
+  return environment[name];
 }
 
 Object pluckDeep(Map<String, dynamic> obj, String path) =>
