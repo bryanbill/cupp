@@ -7,13 +7,13 @@ A simple, easy to use, and powerful programming language.
 ### Linux and macOS
 
 ```bash
-curl -s https://raw.githubusercontent.com/cupp-lang/cupp/main/install.sh | bash
+curl -s https://raw.githubusercontent.com/bryanbill/cupp/main/install.sh | bash
 ```
 
 ### Windows
 
 ```powershell
-iwr https://raw.githubusercontent.com/cupp-lang/cupp/main/install.ps1 -useb | iex
+iwr https://raw.githubusercontent.com/bryanbill/cupp/main/install.ps1 -useb | iex
 ```
 
 ## Usage
