@@ -17,7 +17,7 @@ void repl() async {
     print('Welcome to the cupp REPL!');
     print('Type "exit" to exit.');
     while (true) {
-      stdout.write('> ');
+      stdout.write(chalk.green('> '));
       var input = stdin.readLineSync();
       if (input == 'exit') {
         break;
