@@ -11,7 +11,7 @@ var environment = {
 all(Function(dynamic, dynamic) fn) => (List list) => list.reduce(fn);
 
 add(params) => params['left'] + params['right'];
-subtract(a, b) => a - b;
+subtract(params) => params['left'] - params['right'];
 multiply(a, b) => a * b;
 divide(a, b) => a / b;
 modulo(a, b) => a % b;
