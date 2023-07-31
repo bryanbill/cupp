@@ -2,14 +2,13 @@ import 'package:cupp/tokenize.dart';
 import 'package:cupp/utilities.dart';
 
 Map<String, dynamic> parse(tokens) {
-  print(tokens);
-  tokens = parenthesize(tokens);
   if (tokens is List) {
     var [first, ...rest] = tokens;
     return {
       "type": "CallExpression",
       "name": first['value'],
-      "params": rest.map((token) => parse(token)).toList()
+      "params": rest.map(parse).toList()
+        ..removeWhere((element) => element.values.isEmpty)
     };
   }
 
@@ -30,14 +29,14 @@ Map<String, dynamic> parse(tokens) {
   return {};
 }
 
-dynamic parenthesize(List tokens) {
+dynamic parenthesize(tokens) {
+  if (tokens is! List) {
+    tokens = [tokens];
+  }
   var token = pop(tokens);
-
-  print("Popped token: $token");
-
-  if (isOpeningParenthesis(token['value'].toString())) {
-    var expression = <dynamic>[];
-    while (!isClosingParenthesis(peek(tokens)['value'].toString())) {
+  if (isOpeningParenthesis(token['value'])) {
+    var expression = [];
+    while (!isClosingParenthesis(peek(tokens)['value'])) {
       expression.add(parenthesize(tokens));
     }
     pop(tokens);
