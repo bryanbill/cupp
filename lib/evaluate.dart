@@ -5,6 +5,7 @@ Future<List<dynamic>> evaluateArgs(List<dynamic> args) async {
 }
 
 Future<dynamic> evaluate(Map<String, dynamic> ast) async {
+  
   if (ast['type'] == 'Program') {
     return await evaluate(ast['body'][0]);
   }
@@ -12,13 +13,10 @@ Future<dynamic> evaluate(Map<String, dynamic> ast) async {
   if (ast['type'] == 'CallExpression') {
     var callee = ast['name'];
     var args = await evaluateArgs(ast['params']);
-
+    var [first, ...rest] = args;
     return apply({
       'name': callee,
-      'args': {
-        'left': args.first,
-        'right': args.last,
-      }
+      'args': {'left': first, 'right': rest}
     });
   }
 
