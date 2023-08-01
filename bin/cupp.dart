@@ -79,10 +79,14 @@ void repl() async {
 
       print(
         chalk.yellow(
-            (await cupp.evaluate(
-                    cupp.parse(parenthesize(cupp.tokenize(input ?? "")))))
-                .toString(),
-            ftFace: ChalkFtFace.italic),
+          (
+            await cupp.evaluate(cupp.parse(
+              parenthesize(cupp.tokenize(input)),
+            )),
+          )
+              .toString(),
+          ftFace: ChalkFtFace.italic,
+        ),
       );
     }
   } catch (e, s) {
