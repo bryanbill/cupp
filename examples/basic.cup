@@ -1,7 +1,0 @@
-(let a 23 )
-(let b 42 )
-(let c 69 )
-
-(let d (add a b c))
-
-(log d)
