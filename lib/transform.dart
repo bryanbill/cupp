@@ -9,7 +9,14 @@ dynamic transform(Map node) {
           specialForms[node['name']]!(node);
         }
       }
-    }
+    },
+    "VariableDeclaration": {
+      "enter": (node, _) {
+        if(specialForms[node['kind']] != null) {
+          specialForms[node['kind']]!(node);
+        }
+      }
+    },
   });
 
   return node;
