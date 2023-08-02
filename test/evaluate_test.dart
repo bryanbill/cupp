@@ -27,6 +27,7 @@ void main() {
   test("should be able to lookup identifiers in the environment", () async {
     var ast = parse(parenthesize(tokenize("pi")));
     var result = await evaluate(ast);
+    result = result['value'].call()['value'];
     expect(result, equals(pi));
   });
   test("Should be able to give highest number in a range", () async {
