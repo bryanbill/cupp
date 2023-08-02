@@ -53,8 +53,10 @@ Future<void> run(String path) async {
     return;
   }
   try {
-    var result = await cupp.evaluate(cupp.parse(
-      parenthesize(cupp.tokenize(content)),
+    var result = await cupp.evaluate(transform(
+      cupp.parse(
+        parenthesize(cupp.tokenize(content)),
+      ),
     ));
     print(
       chalk.yellow(
@@ -81,13 +83,13 @@ void repl() async {
       if (input == null || input.isEmpty) {
         continue;
       }
-      var result = await cupp.evaluate(transform(
+      var result = await cupp.evaluate(
         transform(
           cupp.parse(
             parenthesize(cupp.tokenize(input)),
           ),
         ),
-      ));
+      );
       print(
         chalk.yellow(
           result.toString(),

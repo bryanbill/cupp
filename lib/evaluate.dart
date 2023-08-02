@@ -1,12 +1,14 @@
+import 'package:cupp/transform.dart';
+
 import 'std_library.dart';
 
 Future<List<dynamic>> evaluateArgs(List<dynamic> args) async {
-  return Future.wait(args.map((arg) async => await evaluate(arg)));
+  return Future.wait(args.map((arg) async => await evaluate(transform(arg))));
 }
 
 Future<dynamic> evaluate(Map<String, dynamic> node) async {
   if (node['type'] == 'Program') {
-    return await evaluate(node['body'][0]);
+    return await evaluate(transform(node['body'][0]));
   }
 
   if (node['type'] == 'CallExpression') {
@@ -62,11 +64,11 @@ dynamic apply(node) {
 
 void define(node) async {
   var identifier = node['identifier']['name'];
-  var result = await evaluate(node['assignment']);
+  var result = await evaluate(transform(node['assignment']));
 
   environment[identifier] = {
     'kind': node['kind'],
-    "assignment": (_) => {
+    "assignment": () => {
           "type": result.runtimeType.toString(),
           "value": result,
         }
@@ -77,7 +79,7 @@ void define(node) async {
 
 void assign(node) async {
   var identifier = node['identifier']['name'];
-  var result = await evaluate(node['assignment']);
+  var result = await evaluate(transform(node['assignment']));
 
   if (environment.containsKey(identifier)) {
     final env = environment[identifier];

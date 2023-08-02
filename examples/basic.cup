@@ -1,15 +1,7 @@
-let a = 23;
-let b = 46;
+(let a 23 )
+(let b 42 )
+(let c 69 )
 
-log(a, b);
+(let d (add a b c))
 
-fn add(a, b) {
-    return a + b;
-}
-
-log(add(a, b));
-
-# Types
-1. of fn -> Infered from return type
-2. of variables -> Infered from assignment, default is `null` (let a;)
-3. of parameters -> Infered from assignment, default is `null` (fn add(a, b) { ... })
+(log d)

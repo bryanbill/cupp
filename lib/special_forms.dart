@@ -1,4 +1,3 @@
-
 var specialForms = {
   "let": (Map node) {
     var identifier = (node['params'] as List)[0];
@@ -59,6 +58,4 @@ var specialForms = {
     node['name'] = 'pow';
     return node;
   },
-  
-
 };
