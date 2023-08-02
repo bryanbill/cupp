@@ -62,4 +62,37 @@ void main() {
     expect((ast['params'] as List)[0]['value'], equals(24));
     expect((ast['params'] as List)[1]['value'], equals(12));
   });
+
+  test("should subtitute symbols with functions", () {
+    var ast = {
+      "type": "CallExpression",
+      "name": "+",
+      "params": [
+        {"type": "NumberLiteral", "value": 2},
+        {
+          "type": "CallExpression",
+          "name": "-",
+          "params": [
+            {"type": "NumberLiteral", "value": 4},
+            {"type": "NumberLiteral", "value": 2}
+          ]
+        }
+      ]
+    };
+
+    var visitor = {
+      "CallExpression": {
+        "enter": (node, _) {
+          if (node['name'] == "+") {
+            node['name'] = "add";
+          } else if (node['name'] == "-") {
+            node['name'] = "subtract";
+          }
+        }
+      }
+    };
+
+    traverse(ast, visitor);
+    expect(ast['name'], equals('add'));
+  });
 }
