@@ -4,14 +4,14 @@ Future<List<dynamic>> evaluateArgs(List<dynamic> args) async {
   return Future.wait(args.map((arg) async => await evaluate(arg)));
 }
 
-Future<dynamic> evaluate(Map<String, dynamic> ast) async {
-  if (ast['type'] == 'Program') {
-    return await evaluate(ast['body'][0]);
+Future<dynamic> evaluate(Map<String, dynamic> node) async {
+  if (node['type'] == 'Program') {
+    return await evaluate(node['body'][0]);
   }
 
-  if (ast['type'] == 'CallExpression') {
-    var callee = ast['name'];
-    var args = await evaluateArgs(ast['params']);
+  if (node['type'] == 'CallExpression') {
+    var callee = node['name'];
+    var args = await evaluateArgs(node['params']);
     var [first, ...rest] = args;
     return apply({
       'name': callee,
@@ -19,23 +19,23 @@ Future<dynamic> evaluate(Map<String, dynamic> ast) async {
     });
   }
 
-  if (ast['type'] == 'AssignmentExpression') {
-    define({'name': ast['name'], 'value': await evaluate(ast['params'][0])});
+  if (node['type'] == 'Identifier') {
+    return getIdentifierValue(node['name']);
   }
 
-  if (ast['type'] == 'NumberLiteral') {
-    return double.parse(ast['value']);
+  if (node['type'] == 'NumberLiteral') {
+    return double.parse(node['value']);
   }
 
-  if (ast['type'] == 'StringLiteral') {
-    return ast['value'];
+  if (node['type'] == 'StringLiteral') {
+    return node['value'];
   }
 
-  if (ast['type'] == 'Identifier') {
-    return ast['name'];
+  if (node['type'] == 'BooleanLiteral') {
+    return bool.tryParse(node['value']);
   }
 
-  throw Exception("${ast['type']} is not a valid type.");
+  throw Exception("I don't know how to evaluate ${node['type']}");
 }
 
 dynamic apply(node) {
@@ -51,7 +51,15 @@ void define(node) {
 }
 
 dynamic getIdentifierValue(name) {
-  return environment[name];
+  if(environment.containsKey(name)) {
+    var value = environment[name];
+    if(value is Function) {
+      return value.call(0);
+    }
+    return value;
+  }
+
+  throw Exception("Undefined variable $name");
 }
 
 Object pluckDeep(Map<String, dynamic> obj, String path) =>
