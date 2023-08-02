@@ -9,7 +9,7 @@ var environment = {
   'pow': pow,
   'max': max,
   'log': log,
-  "pi": (_) => pi
+  "pi": (_) => {"type": "number", "value": pi}
 };
 
 all(Function(dynamic, dynamic) fn) => (List list) => list.reduce(fn);
@@ -22,13 +22,14 @@ add(params) {
   return left + right.reduce((a, b) => a + b);
 }
 
-subtract(params){
+subtract(params) {
   var left = params['left'];
   var right = params['right'];
   if (right == null || right.isEmpty) return left;
 
   return left - right.reduce((a, b) => a + b);
 }
+
 multiply(params) {
   var left = params['left'];
   var right = params['right'];
@@ -36,6 +37,7 @@ multiply(params) {
 
   return left * right.reduce((a, b) => a * b);
 }
+
 divide(params) {
   var left = params['left'];
   var right = params['right'];
@@ -43,6 +45,7 @@ divide(params) {
 
   return left / right.reduce((a, b) => a / b);
 }
+
 modulo(params) {
   var left = params['left'];
   var right = params['right'];
@@ -50,6 +53,7 @@ modulo(params) {
 
   return left % right.reduce((a, b) => a % b);
 }
+
 pow(params) {
   var left = params['left'];
   var right = params['right'];
