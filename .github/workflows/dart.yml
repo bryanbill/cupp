@@ -1,8 +1,6 @@
 name: Dart
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -30,6 +28,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: cupp-0.1.1-linux
-          path: bin/main
+          path: bin/cupp
       
     
