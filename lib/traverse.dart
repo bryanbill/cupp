@@ -1,6 +1,3 @@
-import 'package:chalk/chalk.dart';
-import 'package:cupp/evaluate.dart';
-
 dynamic traverse(node, visitor) {
   traverseNode(node, null, visitor);
 }
