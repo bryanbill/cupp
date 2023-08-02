@@ -42,6 +42,5 @@ dynamic parenthesize(tokens) {
     pop(tokens);
     return expression;
   }
-
   return token;
 }
