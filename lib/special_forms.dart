@@ -24,6 +24,17 @@ var specialForms = {
     node.remove('name');
     node.remove('params');
   },
+  "=": (Map node) {
+    var identifier = (node['params'] as List)[0];
+    var value = (node['params'] as List)[1];
+
+    node['type'] = 'AssignmentExpression';
+    node['identifier'] = identifier;
+    node['assignment'] = value;
+
+    node.remove('name');
+    node.remove('params');
+  },
   "+": (node) {
     node['name'] = 'add';
     return node;
