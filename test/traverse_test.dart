@@ -1,4 +1,3 @@
-import 'package:chalk/chalk.dart';
 import 'package:cupp/traverse.dart';
 import 'package:test/test.dart';
 
