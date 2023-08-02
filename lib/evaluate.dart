@@ -54,7 +54,7 @@ dynamic getIdentifierValue(name) {
   if(environment.containsKey(name)) {
     var value = environment[name];
     if(value is Function) {
-      return value.call(0);
+      return value?.call({});
     }
     return value;
   }
