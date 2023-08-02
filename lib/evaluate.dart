@@ -19,6 +19,11 @@ Future<dynamic> evaluate(Map<String, dynamic> node) async {
     });
   }
 
+  if (node['type'] == 'VariableDeclaration') {
+    define(node);
+    return;
+  }
+
   if (node['type'] == 'Identifier') {
     return getIdentifierValue(node['name']);
   }
@@ -46,15 +51,22 @@ dynamic apply(node) {
   return fn(node['args']);
 }
 
-void define(node) {
-  environment[node.name] = node.value;
+void define(node) async{
+  var identifier = node['identifier']['name'];
+  var result = await evaluate(node['assignment']);
+
+  environment[identifier] = (_) => {
+        "kind": node['kind'],
+        "type": result.runtimeType.toString(),
+        "value": result,
+      };
 }
 
 dynamic getIdentifierValue(name) {
-  if(environment.containsKey(name)) {
+  if (environment.containsKey(name)) {
     var value = environment[name];
-    if(value is Function) {
-      return value?.call({});
+    if (value is Function) {
+      return value?.call({})['value'];
     }
     return value;
   }

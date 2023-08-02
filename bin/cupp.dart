@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:chalk/chalk.dart';
 import 'package:cupp/cupp.dart' as cupp;
 import 'package:cupp/parse.dart';
+import 'package:cupp/transform.dart';
 
 void main(List<String> arguments) async {
   if (arguments.isEmpty) {
@@ -80,8 +81,12 @@ void repl() async {
       if (input == null || input.isEmpty) {
         continue;
       }
-      var result = await cupp.evaluate(cupp.parse(
-        parenthesize(cupp.tokenize(input)),
+      var result = await cupp.evaluate(transform(
+        transform(
+          cupp.parse(
+            parenthesize(cupp.tokenize(input)),
+          ),
+        ),
       ));
       print(
         chalk.yellow(
