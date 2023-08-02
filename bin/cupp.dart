@@ -6,6 +6,8 @@ import 'package:cupp/parse.dart';
 
 void main(List<String> arguments) async {
   if (arguments.isEmpty) {
+    print('Welcome to the cupp REPL!');
+    print('Type "exit" to exit.');
     repl();
   } else {
     if (arguments.first == "-h" || arguments.first == "--help") {
@@ -50,10 +52,14 @@ Future<void> run(String path) async {
     return;
   }
   try {
+    var result = await cupp.evaluate(cupp.parse(
+      parenthesize(cupp.tokenize(content)),
+    ));
     print(
       chalk.yellow(
-          (await cupp.evaluate(cupp.parse(cupp.tokenize(content)))).toString(),
-          ftFace: ChalkFtFace.italic),
+        result.toString(),
+        ftFace: ChalkFtFace.italic,
+      ),
     );
   } catch (e, s) {
     print(chalk.red(e.toString()));
@@ -65,8 +71,6 @@ void compile(String path) {}
 
 void repl() async {
   try {
-    print('Welcome to the cupp REPL!');
-    print('Type "exit" to exit.');
     while (true) {
       stdout.write(chalk.green('> '));
       var input = stdin.readLineSync();
@@ -76,17 +80,19 @@ void repl() async {
       if (input == null || input.isEmpty) {
         continue;
       }
-
+      var result = await cupp.evaluate(cupp.parse(
+        parenthesize(cupp.tokenize(input)),
+      ));
       print(
         chalk.yellow(
-            (await cupp.evaluate(
-                    cupp.parse(parenthesize(cupp.tokenize(input ?? "")))))
-                .toString(),
-            ftFace: ChalkFtFace.italic),
+          result.toString(),
+          ftFace: ChalkFtFace.italic,
+        ),
       );
     }
   } catch (e, s) {
     print(chalk.red(e.toString()));
     print(chalk.red(s.toString()));
+    repl();
   }
 }
