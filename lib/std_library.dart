@@ -9,7 +9,13 @@ var environment = {
   'pow': pow,
   'max': max,
   'log': log,
-  "pi": (_) => {"type": "number", "value": pi}
+  "pi": {
+    "kind": "final",
+    "value": () => {
+          "type": "double",
+          "value": pi,
+        }
+  }
 };
 
 all(Function(dynamic, dynamic) fn) => (List list) => list.reduce(fn);
