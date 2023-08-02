@@ -24,7 +24,7 @@ jobs:
         run: dart test
     
       - name: Build project -  Linux
-        run: dart compile exe bin/main.dart -o bin/main
+        run: dart compile exe bin/cupp.dart -o bin/cupp
       
       - name: Upload artifact
         uses: actions/upload-artifact@v2
