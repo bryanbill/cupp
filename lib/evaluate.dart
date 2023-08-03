@@ -73,7 +73,6 @@ void define(node) async {
           "value": result,
         }
   };
-
   return;
 }
 

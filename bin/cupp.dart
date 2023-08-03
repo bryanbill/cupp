@@ -67,6 +67,7 @@ Future<void> run(String path) async {
   } catch (e, s) {
     print(chalk.red(e.toString()));
     print(chalk.red(s.toString()));
+    repl();
   }
 }
 
