@@ -1,7 +1,16 @@
 var specialForms = {
   "let": (Map node) {
     var identifier = (node['params'] as List)[0];
-    var value = (node['params'] as List)[1];
+    var value = {
+      "type": "Literal",
+      "value": null,
+    };
+
+    if ((node['params'] as List).length > 1) {
+      value = (node['params'] as List)[1];
+    }
+
+    print(value);
 
     node['type'] = 'VariableDeclaration';
     node['identifier'] = identifier;

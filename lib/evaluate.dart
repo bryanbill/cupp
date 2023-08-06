@@ -35,6 +35,10 @@ Future<dynamic> evaluate(Map<String, dynamic> node) async {
     return getIdentifierValue(node['name']);
   }
 
+  if (node['type'] == 'Literal') {
+    return node['value'];
+  }
+
   if (node['type'] == 'NumberLiteral') {
     return double.parse(node['value']);
   }
