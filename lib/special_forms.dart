@@ -7,11 +7,8 @@ var specialForms = {
     };
 
     if ((node['params'] as List).length > 1) {
-      value = (node['params'] as List)[1];
+      value = Map.from((node['params'] as List)[1]);
     }
-
-    print(value);
-
     node['type'] = 'VariableDeclaration';
     node['identifier'] = identifier;
     node['assignment'] = value;
