@@ -15,7 +15,8 @@ var environment = {
           "type": "double",
           "value": pi,
         }
-  }
+  },
+  "modules": []
 };
 
 all(Function(dynamic, dynamic) fn) => (List list) => list.reduce(fn);
