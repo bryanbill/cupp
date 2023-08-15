@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:cupp/utilities.dart';
-
 var environment = {
   'add': add,
   'subtract': subtract,

@@ -18,4 +18,3 @@ void yellow(Object object) => print(chalk.yellow(object.toString()));
 void blue(Object object) => print(chalk.blue(object.toString()));
 void cyan(Object object) => print(chalk.cyan(object.toString()));
 void white(Object object) => print(chalk.white(object.toString()));
-

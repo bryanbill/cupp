@@ -1,6 +1,4 @@
 import 'package:cupp/transform.dart';
-import 'package:cupp/utilities.dart';
-
 import 'std_library.dart';
 
 Map<String, dynamic> context = {};
