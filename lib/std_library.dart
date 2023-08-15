@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:cupp/utilities.dart';
+
 var environment = {
   'add': add,
   'subtract': subtract,
@@ -76,7 +78,7 @@ log(Map params) {
   var left = params['left'];
   var right = params['right'];
 
-  if (right == null || right.isEmpty) {
+  if (right == null || right.isEmpty || right[0] == null) {
     print(left.toString());
     return;
   }
