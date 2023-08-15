@@ -8,7 +8,7 @@ var environment = {
   'modulo': modulo,
   'pow': pow,
   'max': max,
-  'log': log,
+  'print': log,
   "pi": {
     "kind": "final",
     "value": () => {
