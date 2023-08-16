@@ -1,7 +1,7 @@
 import 'package:cupp/special_forms.dart';
 import 'package:cupp/traverse.dart';
 
-dynamic transform(Map node) {
+Map<String, dynamic> transform(Map<String, dynamic> node) {
   traverse(node, {
     "CallExpression": {
       "enter": (node, _) {
