@@ -25,8 +25,11 @@ Future<dynamic> evaluate(Map<String, dynamic> node) async {
   }
 
   if (node['type'] == 'VariableDeclaration') {
-    define(node);
-    return;
+    try {
+      return define(node);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   if (node['type'] == "AssignmentExpression") {
@@ -66,9 +69,13 @@ dynamic apply(node) {
   if (fn is Map) return fn['assignment'].call();
 }
 
-void define(node) async {
+void define(Map<String, dynamic> node) async {
   var identifier = node['identifier']['name'];
-  var result = await evaluate(transform(node['assignment']));
+  var result = await evaluate(transform(Map.from(node['assignment'])));
+
+  if (environment.containsKey(identifier)) {
+    throw Exception("Cannot redeclare variable $identifier");
+  }
 
   environment[identifier] = {
     'kind': node['kind'],
