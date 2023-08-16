@@ -43,7 +43,7 @@ List<Map<String, dynamic>> tokenize(String input) {
       var value = '';
       while (cursor < input.length) {
         char = input[cursor];
-        if (char == '.') {
+        if (char == '.' && isNumber(input[cursor + 1])) {
           value += char;
           cursor++;
           continue;
