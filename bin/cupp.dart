@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:chalk/chalk.dart';
 import 'package:cupp/cupp.dart' as cupp;
 import 'package:cupp/parse.dart';

@@ -19,8 +19,15 @@ var specialForms = {
   },
   "final": (Map node) {
     var identifier = (node['args'] as List)[0];
-    var value = (node['args'] as List)[1];
+    var value = <String, dynamic>{
+      "type": "Literal",
+      "value": null,
+    };
 
+    if ((node['args'] as List).length > 1) {
+      value = Map.from((node['args'] as List)[1]);
+    }
+    
     node['type'] = 'VariableDeclaration';
     node['identifier'] = identifier;
     node['assignment'] = value;
