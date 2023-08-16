@@ -5,12 +5,12 @@ void main() {
   test("should return NumberLiteral for number tokens", () {
     var tokens = tokenize("(1)");
     var ast = {'type': 'NumberLiteral', 'value': '1'};
-    expect(parse(tokens)['params'][0], ast);
+    expect(parse(tokens)['args'][0], ast);
   });
   test("should return StringLiteral for string tokens", () {
     var tokens = tokenize('("hello")');
     var ast = {'type': 'StringLiteral', 'value': 'hello'};
-    expect(parse(tokens)['params'][0], ast);
+    expect(parse(tokens)['args'][0], ast);
   });
   test("should return an AST for a basic data strucuture", () {
     var tokens = tokenize("add 2 3");
@@ -18,7 +18,7 @@ void main() {
     const ast = {
       "type": 'CallExpression',
       "name": 'add',
-      "params": [
+      "args": [
         {"type": 'NumberLiteral', "value": '2'},
         {"type": 'NumberLiteral', "value": '3'},
       ],
@@ -32,13 +32,13 @@ void main() {
     const ast = {
       "type": 'CallExpression',
       "name": 'add',
-      "params": [
+      "args": [
         {"type": 'NumberLiteral', "value": '2'},
         {"type": 'NumberLiteral', "value": '3'},
         {
           "type": 'CallExpression',
           "name": 'subtract',
-          "params": [
+          "args": [
             {"type": 'NumberLiteral', "value": '4'},
             {"type": 'NumberLiteral', "value": '2'},
           ],

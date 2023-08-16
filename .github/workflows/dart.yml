@@ -1,10 +1,8 @@
 name: Dart
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
@@ -22,14 +20,13 @@ jobs:
 
       - name: Run tests
         run: dart test
-    
+
       - name: Build project -  Linux
         run: dart compile exe bin/cupp.dart -o bin/cupp
-      
-      - name: Upload artifact
+
+      - name: Upload Linux Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: cupp-0.1.1-linux
-          path: bin/main
-      
-    
+          name: cupp-0.1.2-linux
+          path: bin/cupp
+

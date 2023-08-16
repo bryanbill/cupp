@@ -1,3 +1,4 @@
-## 1.0.0
+## 0.1.2
 
-- Initial version.
+- Define new variables with `let` and `final` keywords
+- Lookup defined variables

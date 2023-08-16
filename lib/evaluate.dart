@@ -1,20 +1,23 @@
 import 'package:cupp/transform.dart';
-
 import 'std_library.dart';
+
+Map<String, dynamic> context = {};
+
+void run(List<Map<String, dynamic>> asts) async {
+  for (var ast in asts) {
+    context[ast['type']] = await evaluate(ast);
+  }
+}
 
 Future<List<dynamic>> evaluateArgs(List<dynamic> args) async {
   return Future.wait(args.map((arg) async => await evaluate(transform(arg))));
 }
 
 Future<dynamic> evaluate(Map<String, dynamic> node) async {
-  if (node['type'] == 'Program') {
-    return await evaluate(transform(node['body'][0]));
-  }
-
   if (node['type'] == 'CallExpression') {
     var callee = node['name'];
-    var args = await evaluateArgs(node['params']);
-    var [first, ...rest] = args;
+    var args = await evaluateArgs(node['args']);
+    var [first, ...rest] = args.length > 1 ? args : [...args, null];
     return apply({
       'name': callee,
       'args': {'left': first, 'right': rest}
@@ -22,8 +25,11 @@ Future<dynamic> evaluate(Map<String, dynamic> node) async {
   }
 
   if (node['type'] == 'VariableDeclaration') {
-    define(node);
-    return;
+    try {
+      return define(node);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   if (node['type'] == "AssignmentExpression") {
@@ -33,6 +39,10 @@ Future<dynamic> evaluate(Map<String, dynamic> node) async {
 
   if (node['type'] == 'Identifier') {
     return getIdentifierValue(node['name']);
+  }
+
+  if (node['type'] == 'Literal') {
+    return node['value'];
   }
 
   if (node['type'] == 'NumberLiteral') {
@@ -56,15 +66,16 @@ dynamic apply(node) {
     throw Exception("${node['name']} is not a function.");
   }
   if (fn is Function) return fn(node['args']);
-
-  if (fn is Map) {
-    return fn['value'](node['args']);
-  }
+  if (fn is Map) return fn['assignment'].call();
 }
 
-void define(node) async {
+void define(Map<String, dynamic> node) async {
   var identifier = node['identifier']['name'];
-  var result = await evaluate(transform(node['assignment']));
+  var result = await evaluate(transform(Map.from(node['assignment'])));
+
+  if (environment.containsKey(identifier)) {
+    throw Exception("Cannot redeclare variable $identifier");
+  }
 
   environment[identifier] = {
     'kind': node['kind'],
@@ -73,7 +84,6 @@ void define(node) async {
           "value": result,
         }
   };
-
   return;
 }
 

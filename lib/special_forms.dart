@@ -1,7 +1,14 @@
 var specialForms = {
   "let": (Map node) {
-    var identifier = (node['params'] as List)[0];
-    var value = (node['params'] as List)[1];
+    var identifier = (node['args'] as List)[0];
+    var value = <String, dynamic>{
+      "type": "Literal",
+      "value": null,
+    };
+
+    if ((node['args'] as List).length > 1) {
+      value = Map.from((node['args'] as List)[1]);
+    }
 
     node['type'] = 'VariableDeclaration';
     node['identifier'] = identifier;
@@ -9,11 +16,14 @@ var specialForms = {
     node['kind'] = 'var';
 
     node.remove('name');
-    node.remove('params');
+    node.remove('args');
   },
   "final": (Map node) {
-    var identifier = (node['params'] as List)[0];
-    var value = (node['params'] as List)[1];
+    var identifier = (node['args'] as List)[0];
+    if (!((node['args'] as List).length > 1)) {
+      throw Exception("final requires an assignment");
+    }
+    var value = Map.from((node['args'] as List)[1]);
 
     node['type'] = 'VariableDeclaration';
     node['identifier'] = identifier;
@@ -21,41 +31,6 @@ var specialForms = {
     node['kind'] = 'final';
 
     node.remove('name');
-    node.remove('params');
-  },
-  "=": (Map node) {
-    var identifier = (node['params'] as List)[0];
-    var value = (node['params'] as List)[1];
-
-    node['type'] = 'AssignmentExpression';
-    node['identifier'] = identifier;
-    node['assignment'] = value;
-
-    node.remove('name');
-    node.remove('params');
-  },
-  "+": (node) {
-    node['name'] = 'add';
-    return node;
-  },
-  "-": (node) {
-    node['name'] = 'subtract';
-    return node;
-  },
-  "*": (node) {
-    node['name'] = 'multiply';
-    return node;
-  },
-  "/": (node) {
-    node['name'] = 'divide';
-    return node;
-  },
-  "%": (node) {
-    node['name'] = 'modulo';
-    return node;
-  },
-  "^": (node) {
-    node['name'] = 'pow';
-    return node;
+    node.remove('args');
   },
 };

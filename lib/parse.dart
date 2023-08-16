@@ -7,7 +7,7 @@ Map<String, dynamic> parse(tokens) {
     return {
       "type": "CallExpression",
       "name": first['value'],
-      "params": rest.map(parse).toList()
+      "args": rest.map(parse).toList()
         ..removeWhere((element) => element.values.isEmpty)
     };
   }

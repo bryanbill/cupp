@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:chalk/chalk.dart';
 import 'package:cupp/cupp.dart' as cupp;
 import 'package:cupp/parse.dart';
@@ -67,6 +66,7 @@ Future<void> run(String path) async {
   } catch (e, s) {
     print(chalk.red(e.toString()));
     print(chalk.red(s.toString()));
+    repl();
   }
 }
 
@@ -83,6 +83,28 @@ void repl() async {
       if (input == null || input.isEmpty) {
         continue;
       }
+
+      if (input.endsWith('{')) {
+        var lines = <String>[];
+        while (true) {
+          stdout.write(chalk.green('    '));
+          var line = stdin.readLineSync();
+          if (line == null || line.isEmpty) {
+            continue;
+          }
+
+          if (line == '}') {
+            break;
+          }
+          lines.add(line);
+        }
+        input = '$input${lines.join('\n')}}';
+      }
+
+      while (input!.endsWith(';')) {
+        input = input.substring(0, input.length - 1);
+      }
+
       var result = await cupp.evaluate(
         transform(
           cupp.parse(

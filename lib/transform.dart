@@ -1,18 +1,18 @@
 import 'package:cupp/special_forms.dart';
 import 'package:cupp/traverse.dart';
 
-dynamic transform(Map node) {
+Map<String, dynamic> transform(Map<String, dynamic> node) {
   traverse(node, {
     "CallExpression": {
       "enter": (node, _) {
-        if(specialForms[node['name']] != null) {
+        if (specialForms[node['name']] != null) {
           specialForms[node['name']]!(node);
         }
       }
     },
     "VariableDeclaration": {
       "enter": (node, _) {
-        if(specialForms[node['kind']] != null) {
+        if (specialForms[node['kind']] != null) {
           specialForms[node['kind']]!(node);
         }
       }

@@ -3,3 +3,4 @@
 .dart_tool/
 dry.dart
 bin/main*
+build/
