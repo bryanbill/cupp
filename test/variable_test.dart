@@ -50,4 +50,10 @@ void main() {
     };
     expect(x.call(), equals(result));
   });
+
+  test("final variables must have an assignment", () {
+    const code = "(final x)";
+    expect(() => evaluate(transform(parse(parenthesize(tokenize(code))))),
+        throwsA(TypeMatcher<Exception>()));
+  });
 }
