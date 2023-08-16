@@ -1,7 +1,7 @@
 var specialForms = {
   "let": (Map node) {
     var identifier = (node['args'] as List)[0];
-    var value = {
+    var value = <String, dynamic>{
       "type": "Literal",
       "value": null,
     };
