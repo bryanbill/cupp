@@ -24,17 +24,9 @@ jobs:
       - name: Build project -  Linux
         run: dart compile exe bin/cupp.dart -o bin/cupp
 
-      - name: Build JavaScript
-        run: dart compile js bin/cupp_js.dart -o bin/cupp.js
-
       - name: Upload Linux Artifact
         uses: actions/upload-artifact@v2
         with:
           name: cupp-0.1.2-linux
           path: bin/cupp
 
-      - name: Upload JavaScript Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: cupp-0.1.2-js
-          path: bin/cupp.js
