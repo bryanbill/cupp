@@ -3,7 +3,6 @@ import 'package:cupp/traverse.dart';
 import 'package:cupp/utilities.dart';
 
 Map<String, dynamic> transform(Map<String, dynamic> node) {
-  magenta(node);
   traverse(node, {
     "CallExpression": {
       "enter": (node, _) {
@@ -25,9 +24,6 @@ Map<String, dynamic> transform(Map<String, dynamic> node) {
           specialForms[node['kind']]!(node);
         }
       },
-      "exit": (node, _) {
-        yellow({node, _});
-      }
     },
   });
 

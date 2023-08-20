@@ -1,11 +1,12 @@
 import 'package:cupp/transform.dart';
 import 'std_library.dart';
 
-Map<String, dynamic> context = {};
+var context = [];
 
-void run(List<Map<String, dynamic>> asts) async {
+Future<void> run(List<Map<String, dynamic>> asts) async {
+  context.clear();
   for (var ast in asts) {
-    context[ast['type']] = await evaluate(ast);
+    context.add(await evaluate(ast));
   }
 }
 
