@@ -1,6 +1,5 @@
 import 'package:cupp/special_forms.dart';
 import 'package:cupp/traverse.dart';
-import 'package:cupp/utilities.dart';
 
 Map<String, dynamic> transform(Map<String, dynamic> node) {
   traverse(node, {
