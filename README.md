@@ -2,25 +2,19 @@
 
 A simple, easy to use, and powerful programming language.
 
-## Installation
+## Usage
 
-### Linux and macOS
+Git clone the repository and run
 
 ```bash
-curl -s https://raw.githubusercontent.com/bryanbill/cupp/main/install.sh | bash
+cd cupp && dart pub global activate --source path .
 ```
-
-### Windows
-
-```powershell
-iwr https://raw.githubusercontent.com/bryanbill/cupp/main/install.ps1 -useb | iex
-```
-
-## Usage
 
 ```bash
 cupp [options] [file]
 ```
+### Web Editor
+Cupp can be run on a web-based editor at this url [https://bx21.tech](https://bx21.tech)
 
 ## Options
 

@@ -10,12 +10,19 @@ Map<String, dynamic> transform(Map<String, dynamic> node) {
         }
       }
     },
+    "Identifier": {
+      "enter": (node, _) {
+        if (specialForms[node['name']] != null) {
+          specialForms[node['name']]!(node);
+        }
+      }
+    },
     "VariableDeclaration": {
       "enter": (node, _) {
         if (specialForms[node['kind']] != null) {
           specialForms[node['kind']]!(node);
         }
-      }
+      },
     },
   });
 
